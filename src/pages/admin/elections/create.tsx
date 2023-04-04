@@ -1,9 +1,10 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
+import Typography from "@mui/material/Typography";
 import Router from "next/router";
-import { Election } from "@/types/Election";
+import { SubmitHandler, useForm } from "react-hook-form";
+
 import { ElectionTypeEnum } from "@/enums/ElectionTypeEnum";
+import { Election } from "@/types/Election";
 
 type FormInputs = {
   name: string;
@@ -27,7 +28,7 @@ async function createElection(name: string, type: string) {
   return null;
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const { register, handleSubmit } = useForm<FormInputs>();
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
@@ -44,7 +45,8 @@ export default function Page() {
 
   return (
     <>
-      <p>lets create election!!</p>
+      <Typography variant="h4">Create Election</Typography>
+      <Typography variant="subtitle2">Create a new election</Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <input type="text" {...register("name")} />
@@ -62,8 +64,4 @@ export default function Page() {
       </form>
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});

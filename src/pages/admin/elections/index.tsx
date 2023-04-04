@@ -1,8 +1,9 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
+import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { Election } from "@/types/Election";
+
 import useElections from "@/data/elections/useElections";
+import { Election } from "@/types/Election";
 
 function getTableData(elections: Election[]) {
   return (
@@ -43,7 +44,7 @@ function renderElections(elections: Election[] | undefined) {
   );
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const { elections, error, isLoading } = useElections();
 
   if (error) return <div>failed to load</div>;
@@ -51,13 +52,11 @@ export default function Page() {
 
   return (
     <>
-      <p>election page</p>
+      <Typography variant="h4">View Elections</Typography>
+      <Typography variant="subtitle2">Viewing all elections</Typography>
+
       <Link href="/admin/elections/create">create new election</Link>
       {renderElections(elections)}
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});

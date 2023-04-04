@@ -1,9 +1,9 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
-import useParty from "@/data/parties/useParty";
-import { useRouter } from "next/router";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import Button from "@mui/material/Button";
-import Router from "next/router";
+import Typography from "@mui/material/Typography";
+import Router, { useRouter } from "next/router";
+
+import useParty from "@/data/parties/useParty";
 
 function deleteParty(id: number) {
   fetch(`/api/admin/parties/${id}`, {
@@ -19,7 +19,7 @@ function deleteParty(id: number) {
     });
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -32,14 +32,15 @@ export default function Page() {
 
   return (
     <>
+      <Typography variant="h4">Party {id}</Typography>
+      <Typography variant="subtitle2">
+        Viewing information for party {id}
+      </Typography>
+
       <p>id: {party?.id}</p>
       <p>name: {party?.name}</p>
 
       <Button onClick={() => deleteParty(numericId)}>Delete Party</Button>
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});

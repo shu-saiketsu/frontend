@@ -1,30 +1,44 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const url = `${process.env.GATEWAY_API}/api/parties`;
+import auth0 from "@/util/auth0";
 
-async function getRequest(req: NextApiRequest, res: NextApiResponse) {
-  let response = await fetch(url);
+const baseUrl = `${process.env.GATEWAY_API}/api/parties`;
+
+async function getParties(req: NextApiRequest, res: NextApiResponse) {
+  const { accessToken } = await auth0.getAccessToken(req, res, {
+    scopes: ["read:parties"],
+  });
+
+  let response = await fetch(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (response.status !== 200) return res.status(500).end();
+
   let json = await response.json();
-
   res.status(200).json(json);
 }
 
-async function postRequest(req: NextApiRequest, res: NextApiResponse) {
-  let response = await fetch(url, {
+async function createParty(req: NextApiRequest, res: NextApiResponse) {
+  const { accessToken } = await auth0.getAccessToken(req, res, {
+    scopes: ["create:parties"],
+  });
+
+  let response = await fetch(baseUrl, {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
     body: req.body,
   });
 
-  if (response.status === 200) {
-    let json = await response.json();
-    res.status(200).json(json);
-    return;
-  }
+  if (response.status !== 200) return res.status(500).end();
 
-  res.status(500).end();
+  let json = await response.json();
+  res.status(200).json(json);
 }
 
 export default async function handler(
@@ -32,8 +46,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    await getRequest(req, res);
+    await getParties(req, res);
   } else if (req.method === "POST") {
-    await postRequest(req, res);
+    await createParty(req, res);
   }
 }

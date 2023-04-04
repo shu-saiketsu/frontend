@@ -1,8 +1,9 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
-import type { Party } from "@/types/Party";
-import useParties from "@/data/parties/useParties";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
+import Typography from "@mui/material/Typography";
 import Link from "next/link";
+
+import useParties from "@/data/parties/useParties";
+import { Party } from "@/types/Party";
 
 function getTableData(parties: Party[]) {
   return (
@@ -37,7 +38,7 @@ function renderParties(parties: Party[] | undefined) {
   );
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const { parties, error, isLoading } = useParties();
 
   if (error) return <div>failed to load</div>;
@@ -45,13 +46,11 @@ export default function Page() {
 
   return (
     <>
-      <p>parties page</p>
+      <Typography variant="h4">View Parties</Typography>
+      <Typography variant="subtitle2">Viewing all parties</Typography>
+
       <Link href="/admin/parties/create">create new party</Link>
       {renderParties(parties)}
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});

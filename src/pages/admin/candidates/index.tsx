@@ -1,10 +1,10 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
-
-import type { Candidate } from "@/types/Candidate";
-import type { Party } from "@/types/Party";
-import useCandidates from "@/data/candidates/useCandidates";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
+import Typography from "@mui/material/Typography";
 import Link from "next/link";
+
+import useCandidates from "@/data/candidates/useCandidates";
+import { Candidate } from "@/types/Candidate";
+import { Party } from "@/types/Party";
 
 function renderParty(party: Party | null) {
   if (party === null) return "N/A";
@@ -49,7 +49,7 @@ function renderCandidates(candidates: Candidate[] | undefined) {
   );
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const { candidates, error, isLoading } = useCandidates();
 
   if (error) return <div>failed to load</div>;
@@ -57,13 +57,11 @@ export default function Page() {
 
   return (
     <>
-      <p>candidates page</p>
+      <Typography variant="h4">View candidates</Typography>
+      <Typography variant="subtitle2">Viewing all candidates</Typography>
+
       <Link href="/admin/candidates/create">create new candidate</Link>
       {renderCandidates(candidates)}
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});

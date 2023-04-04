@@ -1,11 +1,10 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Router, { useRouter } from "next/router";
 
 import useCandidate from "@/data/candidates/useCandidate";
 import { Party } from "@/types/Party";
-import { useRouter } from "next/router";
-import Button from "@mui/material/Button";
-import Router from "next/router";
 
 function renderParty(party: Party) {
   return (
@@ -29,7 +28,7 @@ function deleteCandidate(id: number) {
     });
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -42,6 +41,11 @@ export default function Page() {
 
   return (
     <>
+      <Typography variant="h4">Candidate {id}</Typography>
+      <Typography variant="subtitle2">
+        Viewing information for candidate {id}
+      </Typography>
+
       <p>id: {candidate?.id}</p>
       <p>name: {candidate?.name}</p>
 
@@ -52,8 +56,4 @@ export default function Page() {
       {candidate?.party ? renderParty(candidate.party) : <p>no party</p>}
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});

@@ -1,8 +1,8 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
-import { useRouter } from "next/router";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import Button from "@mui/material/Button";
-import Router from "next/router";
+import Typography from "@mui/material/Typography";
+import Router, { useRouter } from "next/router";
+
 import useElection from "@/data/elections/useElection";
 
 function deleteElection(id: number) {
@@ -19,7 +19,7 @@ function deleteElection(id: number) {
     });
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -32,14 +32,15 @@ export default function Page() {
 
   return (
     <>
+      <Typography variant="h4">Election {id}</Typography>
+      <Typography variant="subtitle2">
+        Viewing information for election {id}
+      </Typography>
+
       <p>id: {election?.id}</p>
       <p>name: {election?.name}</p>
 
       <Button onClick={() => deleteElection(numericId)}>Delete Election</Button>
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});

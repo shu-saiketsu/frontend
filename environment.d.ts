@@ -8,6 +8,7 @@ declare global {
       AUTH0_ISSUER_BASE_URL: string;
       AUTH0_CLIENT_ID: string;
       AUTH0_CLIENT_SECRET: string;
+      AUTH0_GATEWAY_IDENTIFIER: string;
 
       NEXT_PUBLIC_AUTH0_NAMESPACE: string;
 

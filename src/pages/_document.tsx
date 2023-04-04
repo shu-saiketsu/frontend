@@ -1,15 +1,17 @@
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentProps,
-  DocumentContext,
-} from "next/document";
 import createEmotionServer from "@emotion/server/create-instance";
 import { AppType } from "next/app";
-import theme, { roboto } from "@/theme";
+import Document, {
+  DocumentContext,
+  DocumentProps,
+  Head,
+  Html,
+  Main,
+  NextScript,
+} from "next/document";
+
 import createEmotionCache from "@/createEmotionCache";
+import theme, { roboto } from "@/theme";
+
 import { FrontendApp } from "./_app";
 
 interface FrontendDocument extends DocumentProps {

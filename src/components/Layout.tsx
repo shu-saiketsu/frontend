@@ -1,16 +1,21 @@
-import type { ReactElement } from "react";
-import Header from "./Header";
+import Container from "@mui/material/Container";
+import * as React from "react";
+
 import Footer from "./Footer";
+import Header from "./Header";
 
 type LayoutProps = {
-  children: ReactElement;
+  children: React.ReactElement;
 };
 
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <Container style={{ marginTop: "25px" }}>
+        <main>{children}</main>
+      </Container>
+
       <Footer />
     </>
   );

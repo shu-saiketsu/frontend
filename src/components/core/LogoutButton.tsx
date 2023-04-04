@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function LogoutButton() {
-  return <a href="/api/auth/logout">Logout</a>;
+  return <Link href="/api/auth/logout">Logout</Link>;
 }

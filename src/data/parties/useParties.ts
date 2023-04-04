@@ -1,5 +1,6 @@
-import { Party } from "@/types/Party";
 import useSWR from "swr";
+
+import { Party } from "@/types/Party";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 

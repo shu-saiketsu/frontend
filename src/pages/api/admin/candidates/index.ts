@@ -1,30 +1,44 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const url = `${process.env.GATEWAY_API}/api/candidates`;
+import auth0 from "@/util/auth0";
 
-async function getRequest(req: NextApiRequest, res: NextApiResponse) {
-  let response = await fetch(url);
+const baseUrl = `${process.env.GATEWAY_API}/api/candidates`;
+
+async function getCandidates(req: NextApiRequest, res: NextApiResponse) {
+  const { accessToken } = await auth0.getAccessToken(req, res, {
+    scopes: ["read:candidates"],
+  });
+
+  let response = await fetch(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (response.status !== 200) return res.status(500).end();
+
   let json = await response.json();
-
   res.status(200).json(json);
 }
 
-async function postRequest(req: NextApiRequest, res: NextApiResponse) {
-  let response = await fetch(url, {
+async function createCandidate(req: NextApiRequest, res: NextApiResponse) {
+  const { accessToken } = await auth0.getAccessToken(req, res, {
+    scopes: ["create:candidates"],
+  });
+
+  let response = await fetch(baseUrl, {
     method: "POST",
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
     body: req.body,
   });
 
-  if (response.status === 200) {
-    let json = await response.json();
-    res.status(200).json(json);
-    return;
-  }
+  if (response.status !== 200) return res.status(500).end();
 
-  res.status(500).end();
+  let json = await response.json();
+  res.status(200).json(json);
 }
 
 export default async function handler(
@@ -32,8 +46,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    await getRequest(req, res);
+    await getCandidates(req, res);
   } else if (req.method === "POST") {
-    await postRequest(req, res);
+    await createCandidate(req, res);
   }
 }

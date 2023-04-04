@@ -1,9 +1,9 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
-
-import { useForm, SubmitHandler } from "react-hook-form";
-import type { Candidate } from "@/types/Candidate";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
+import Typography from "@mui/material/Typography";
 import Router from "next/router";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+import { Candidate } from "@/types/Candidate";
 
 type FormInputs = {
   name: string;
@@ -24,7 +24,7 @@ async function createCandidate(name: string, partyId: number | null) {
   return null;
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const { register, handleSubmit } = useForm<FormInputs>();
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
@@ -41,7 +41,8 @@ export default function Page() {
 
   return (
     <>
-      <p>lets create candidate!!</p>
+      <Typography variant="h4">Create Candidate</Typography>
+      <Typography variant="subtitle2">Create a new candidate</Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <input type="text" {...register("name")} />
@@ -51,8 +52,4 @@ export default function Page() {
       </form>
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});

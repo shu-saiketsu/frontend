@@ -1,8 +1,7 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
-import type { Party } from "@/types/Party";
-import useParties from "@/data/parties/useParties";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
+import Typography from "@mui/material/Typography";
 import Link from "next/link";
+
 import useUsers from "@/data/users/useUsers";
 import { User } from "@/types/User";
 
@@ -39,7 +38,7 @@ function renderUsers(users: User[] | undefined) {
   );
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const { users, error, isLoading } = useUsers();
 
   if (error) return <div>failed to load</div>;
@@ -47,13 +46,11 @@ export default function Page() {
 
   return (
     <>
-      <p>users page</p>
+      <Typography variant="h4">View Users</Typography>
+      <Typography variant="subtitle2">Viewing all users</Typography>
+
       <Link href="/admin/users/create">create new user</Link>
       {renderUsers(users)}
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});

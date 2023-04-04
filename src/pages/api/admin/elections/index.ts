@@ -1,55 +1,53 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
-import { isUserInRole } from "@/util/roleRetriver";
 
-const url = `${process.env.GATEWAY_API}/api/elections`;
+import auth0 from "@/util/auth0";
 
-async function getRequest(req: NextApiRequest, res: NextApiResponse) {
-  let response = await fetch(url);
+const baseUrl = `${process.env.GATEWAY_API}/api/elections`;
+
+async function getElections(req: NextApiRequest, res: NextApiResponse) {
+  const { accessToken } = await auth0.getAccessToken(req, res, {
+    scopes: ["read:elections"],
+  });
+
+  let response = await fetch(baseUrl, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (response.status !== 200) return res.status(500).end();
+
   let json = await response.json();
-
   res.status(200).json(json);
 }
 
-async function postRequest(req: NextApiRequest, res: NextApiResponse) {
-  const { name, type }: { name: string; type: string } = req.body;
-
-  const session = await getSession(req, res);
-  const user = session?.user;
-
-  console.log(JSON.stringify({ name, type, ownerId: user?.sub ?? "" }));
-
-  let response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, type, ownerId: user?.sub ?? "" }),
+async function createElection(req: NextApiRequest, res: NextApiResponse) {
+  const { accessToken } = await auth0.getAccessToken(req, res, {
+    scopes: ["create:elections"],
   });
 
-  if (response.status === 200) {
-    let json = await response.json();
-    res.status(200).json(json);
-    return;
-  }
+  let response = await fetch(baseUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: req.body,
+  });
 
-  res.status(500).end();
+  if (response.status !== 200) return res.status(500).end();
+
+  let json = await response.json();
+  res.status(200).json(json);
 }
 
-export default withApiAuthRequired(async function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getSession(req, res);
-  const user = session?.user;
-
-  if (isUserInRole(user, "Administrator")) {
-    if (req.method === "GET") {
-      return await getRequest(req, res);
-    } else if (req.method === "POST") {
-      return await postRequest(req, res);
-    }
+  if (req.method === "GET") {
+    await getElections(req, res);
+  } else if (req.method === "POST") {
+    await createElection(req, res);
   }
-
-  res.status(401).end();
-});
+}

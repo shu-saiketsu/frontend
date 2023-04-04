@@ -1,8 +1,8 @@
-import type { GetServerSideProps } from "next";
-import pageRoleCheck from "@/util/pageRoleCheck";
-import { useRouter } from "next/router";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0/client";
 import Button from "@mui/material/Button";
-import Router from "next/router";
+import Typography from "@mui/material/Typography";
+import Router, { useRouter } from "next/router";
+
 import useUser from "@/data/users/useUser";
 
 function deleteUser(id: string) {
@@ -19,7 +19,7 @@ function deleteUser(id: string) {
     });
 }
 
-export default function Page() {
+export default withPageAuthRequired(function Page() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -32,14 +32,15 @@ export default function Page() {
 
   return (
     <>
+      <Typography variant="h4">User {id}</Typography>
+      <Typography variant="subtitle2">
+        Viewing information for user {id}
+      </Typography>
+
       <p>id: {user?.id}</p>
       <p>email: {user?.email}</p>
 
       <Button onClick={() => deleteUser(identifier)}>Delete User</Button>
     </>
   );
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return await pageRoleCheck(context, "Administrator");
-};
+});
