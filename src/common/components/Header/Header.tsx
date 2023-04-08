@@ -1,8 +1,9 @@
-import * as React from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import * as React from "react";
+
 import ProfilePicture from "./ProfilePicture";
-import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function Header() {
   const { user } = useUser();

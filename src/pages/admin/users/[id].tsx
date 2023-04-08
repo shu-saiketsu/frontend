@@ -1,17 +1,17 @@
-import * as React from "react";
-import Head from "next/head";
-import PageTitle from "@/common/components/PageTitle";
 import Grid from "@mui/material/Grid";
-import { useRouter } from "next/router";
-import auth0 from "@/common/utils/auth0";
 import { GetServerSidePropsContext } from "next";
-import { User } from "@/common/types/User";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import * as React from "react";
 
-import { getUser } from "@/pages/api/users/[id]";
+import PageTitle from "@/common/components/PageTitle";
+import { User } from "@/common/types/User";
+import auth0 from "@/common/utils/auth0";
 import UserDeletionConfirmationDialogue from "@/modules/users/components/delete/UserDeletionConfirmationDialogue";
 import UserDeletionErrorSnackbar from "@/modules/users/components/delete/UserDeletionErrorSnackbar";
-import UserBasicInfoCard from "@/modules/users/components/UserBasicInfoCard";
 import UserActionButtons from "@/modules/users/components/UserActionButtons";
+import UserBasicInfoCard from "@/modules/users/components/UserBasicInfoCard";
+import { getUser } from "@/pages/api/users/[id]";
 
 type ViewUserProps = {
   dataUser: User;
@@ -20,7 +20,7 @@ type ViewUserProps = {
 export default function ViewUser({ dataUser }: ViewUserProps) {
   const router = useRouter();
 
-  let id = router.query.id as string;
+  const id = router.query.id as string;
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     React.useState<boolean>(false);

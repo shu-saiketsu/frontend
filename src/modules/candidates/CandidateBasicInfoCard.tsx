@@ -1,13 +1,14 @@
-import * as React from "react";
-import Paper from "@mui/material/Paper";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
+import CardContent from "@mui/material/CardContent";
+import Divider from "@mui/material/Divider";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Link from "next/link";
+import * as React from "react";
+
 import InfoCardItem from "@/common/components/InfoCardItem";
 import { Candidate } from "@/common/types/Candidate";
 import { Party } from "@/common/types/Party";
-import Link from "next/link";
 
 type CandidateBasicInfoCardProps = {
   candidate: Candidate;

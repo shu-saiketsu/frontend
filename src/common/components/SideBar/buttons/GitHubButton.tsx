@@ -1,5 +1,6 @@
-import * as React from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import * as React from "react";
+
 import SideBarButton from "../SideBarButton";
 
 export default function GitHubButton() {

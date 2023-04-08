@@ -1,12 +1,14 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import TextFieldController from "@/common/components/Form/TextFieldController";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import { useForm } from "react-hook-form";
+
 import NumberTextFieldController from "@/common/components/Form/NumberTextFieldController";
+import TextFieldController from "@/common/components/Form/TextFieldController";
 import { Candidate } from "@/common/types/Candidate";
+
 import CandidateCreationErrorSnackbar from "./create/CandidateCreationErrorSnackbar";
 
 type CreateCandidateFormProps = {
@@ -57,14 +59,14 @@ function CandidateSection({
 }
 
 async function createCandidate(formData: FormData) {
-  let response = await fetch("/api/candidates", {
+  const response = await fetch("/api/candidates", {
     method: "POST",
     body: JSON.stringify({ name: formData.name, partyId: formData.partyId }),
   });
 
   if (response.status === 200) {
-    let json = await response.json();
-    let candidate = json as Candidate;
+    const json = await response.json();
+    const candidate = json as Candidate;
 
     return candidate;
   }

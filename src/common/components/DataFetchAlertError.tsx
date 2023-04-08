@@ -1,6 +1,6 @@
-import * as React from "react";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import * as React from "react";
 
 export default function DataFetchAlertError() {
   return (

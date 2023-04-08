@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import auth0 from "@/common/utils/auth0";
-import { User } from "@/common/types/User";
+
 import { RoleEnum } from "@/common/enums/RoleEnum";
+import { User } from "@/common/types/User";
+import auth0 from "@/common/utils/auth0";
 
 const gatewayUrl = process.env.GATEWAY_API;
 
@@ -57,7 +58,7 @@ async function createUser(
   }
 }
 
-export default async function handler(
+export default auth0.withApiAuthRequired(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -76,7 +77,9 @@ export default async function handler(
     }
 
     case "POST": {
-      let { email, password, firstName, lastName, role } = JSON.parse(req.body);
+      const { email, password, firstName, lastName, role } = JSON.parse(
+        req.body
+      );
 
       if (
         typeof email !== "string" ||
@@ -113,6 +116,6 @@ export default async function handler(
       return res.status(500).end();
     }
   }
-}
+});
 
 export { getUsers };

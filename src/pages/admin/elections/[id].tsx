@@ -1,26 +1,26 @@
-import * as React from "react";
-import Head from "next/head";
-import PageTitle from "@/common/components/PageTitle";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { useRouter } from "next/router";
-import auth0 from "@/common/utils/auth0";
+import Grid from "@mui/material/Grid";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import * as React from "react";
 
-import { getElection } from "@/pages/api/elections/[id]";
-import { Election } from "@/common/types/Election";
-import ElectionBasicInfoCard from "@/modules/elections/ElectionBasicInfoCard";
-import ElectionCandidateDataGrid from "@/modules/elections/grids/ElectionCandidateDataGrid";
-import { getElectionCandidates } from "@/pages/api/elections/[id]/candidates";
+import PageTitle from "@/common/components/PageTitle";
 import { Candidate } from "@/common/types/Candidate";
-import ElectionUserDataGrid from "@/modules/elections/grids/ElectionUserDataGrid";
-import { getElectionUsers } from "@/pages/api/elections/[id]/users";
+import { Election } from "@/common/types/Election";
 import { User } from "@/common/types/User";
-import ElectionActionButtons from "@/modules/elections/ElectionActionButtons";
+import auth0 from "@/common/utils/auth0";
 import ElectionDeletionConfirmationDialogue from "@/modules/elections/delete/ElectionDeletionConfirmationDialogue";
 import ElectionDeletionErrorSnackbar from "@/modules/elections/delete/ElectionDeletionErrorSnackbar";
+import ElectionActionButtons from "@/modules/elections/ElectionActionButtons";
+import ElectionBasicInfoCard from "@/modules/elections/ElectionBasicInfoCard";
 import ElectionDateCard from "@/modules/elections/ElectionDateCard";
 import ElectionStatusCard from "@/modules/elections/ElectionStatusCard";
+import ElectionCandidateDataGrid from "@/modules/elections/grids/ElectionCandidateDataGrid";
+import ElectionUserDataGrid from "@/modules/elections/grids/ElectionUserDataGrid";
+import { getElection } from "@/pages/api/elections/[id]";
+import { getElectionCandidates } from "@/pages/api/elections/[id]/candidates";
+import { getElectionUsers } from "@/pages/api/elections/[id]/users";
 
 type ViewElectionProps = {
   election: Election;
@@ -35,7 +35,7 @@ export default function ViewElection({
 }: ViewElectionProps) {
   const router = useRouter();
 
-  let id = Number(router.query.id);
+  const id = Number(router.query.id);
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     React.useState<boolean>(false);

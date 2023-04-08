@@ -1,6 +1,6 @@
+import { DatePicker } from "@mui/x-date-pickers";
 import * as React from "react";
 import { Controller, RegisterOptions } from "react-hook-form";
-import { DatePicker } from "@mui/x-date-pickers";
 
 type DateTimePickerProps = {
   control: any;

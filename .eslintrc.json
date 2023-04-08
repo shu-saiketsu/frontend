@@ -2,14 +2,16 @@
   "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:import/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:@next/next/recommended",
-    "prettier"
+    "plugin:prettier/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
   ],
-  "plugins": ["react", "import", "jsx-a11y", "prettier"],
+  "plugins": ["@typescript-eslint", "react", "jsx-a11y", "prettier", "import"],
   "env": {
     "browser": true,
     "node": true
@@ -25,7 +27,7 @@
     "import/resolver": {
       "typescript": {
         "alwaysTryTypes": true,
-        "project": "."
+        "project": "./tsconfig.json"
       }
     }
   },
@@ -34,6 +36,35 @@
       "error",
       {
         "patterns": ["@mui/*/*/*"]
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": false,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+        "allowSeparatedGroups": true
+      }
+    ],
+    "import/no-unresolved": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["sibling", "parent"],
+          "index",
+          "unknown"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
       }
     ]
   }

@@ -1,15 +1,16 @@
-import * as React from "react";
-import PageTitle from "@/common/components/PageTitle";
-import Box from "@mui/material/Box";
-import Head from "next/head";
-import auth0 from "@/common/utils/auth0";
-import { GetServerSidePropsContext } from "next/types";
-import DataFetchAlertError from "@/common/components/DataFetchAlertError";
-import Button from "@mui/material/Button";
 import BallotIcon from "@mui/icons-material/Ballot";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Head from "next/head";
+import { GetServerSidePropsContext } from "next/types";
+import * as React from "react";
+
+import DataFetchAlertError from "@/common/components/DataFetchAlertError";
+import PageTitle from "@/common/components/PageTitle";
 import { Election } from "@/common/types/Election";
-import { getElections } from "@/pages/api/elections";
+import auth0 from "@/common/utils/auth0";
 import ElectionDataGrid from "@/modules/elections/grids/ElectionDataGrid";
+import { getElections } from "@/pages/api/elections";
 
 type IndexElectionsProps = {
   elections?: Election[];

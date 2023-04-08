@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import auth0 from "@/common/utils/auth0";
-import { Election } from "@/common/types/Election";
+
 import { ElectionTypeEnum } from "@/common/enums/ElectionTypeEnum";
+import { Election } from "@/common/types/Election";
+import auth0 from "@/common/utils/auth0";
 
 const gatewayUrl = process.env.GATEWAY_API;
 
@@ -57,7 +58,7 @@ async function createElection(
   }
 }
 
-export default async function handler(
+export default auth0.withApiAuthRequired(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -78,8 +79,8 @@ export default async function handler(
     case "POST": {
       const session = await auth0.getSession(req, res);
 
-      let ownerId = session!.user.sub;
-      let { name, type, startDate, endDate } = JSON.parse(req.body);
+      const ownerId = session!.user.sub;
+      const { name, type, startDate, endDate } = JSON.parse(req.body);
 
       const { accessToken } = await auth0.getAccessToken(req, res, {
         scopes: ["create:elections"],
@@ -104,6 +105,6 @@ export default async function handler(
       return res.status(500).end();
     }
   }
-}
+});
 
 export { getElections };

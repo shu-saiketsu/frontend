@@ -1,10 +1,10 @@
-import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import * as React from "react";
 
 async function deleteCandidate(id: number) {
   const response = await fetch(`/api/candidates/${id}`, { method: "DELETE" });
@@ -28,7 +28,7 @@ export default function CandidateDeletionConfirmationDialogue({
   onClose,
 }: CandidateDeletionConfirmationDialogueProps) {
   const handleClick = async () => {
-    let response = await deleteCandidate(candidateId);
+    const response = await deleteCandidate(candidateId);
 
     if (response) {
       return onDelete();

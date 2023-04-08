@@ -1,8 +1,8 @@
-import * as React from "react";
+import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import * as React from "react";
 
 export default function SideBarHeader() {
   return (

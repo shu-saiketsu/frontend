@@ -1,11 +1,13 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import TextFieldController from "@/common/components/Form/TextFieldController";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import { useForm } from "react-hook-form";
+
+import TextFieldController from "@/common/components/Form/TextFieldController";
 import { Party } from "@/common/types/Party";
+
 import PartyCreationErrorSnackbar from "./create/PartyCreationErrorSnackbar";
 
 type CreatePartyFormProps = {
@@ -61,7 +63,7 @@ function PartySection({
 }
 
 async function createParty(formData: FormData) {
-  let response = await fetch("/api/parties", {
+  const response = await fetch("/api/parties", {
     method: "POST",
     body: JSON.stringify({
       name: formData.name,
@@ -70,8 +72,8 @@ async function createParty(formData: FormData) {
   });
 
   if (response.status === 200) {
-    let json = await response.json();
-    let party = json as Party;
+    const json = await response.json();
+    const party = json as Party;
 
     return party;
   }

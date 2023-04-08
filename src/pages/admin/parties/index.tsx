@@ -1,15 +1,16 @@
-import * as React from "react";
-import DataFetchAlertError from "@/common/components/DataFetchAlertError";
-import Head from "next/head";
-import PageTitle from "@/common/components/PageTitle";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import auth0 from "@/common/utils/auth0";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
+import * as React from "react";
+
+import DataFetchAlertError from "@/common/components/DataFetchAlertError";
+import PageTitle from "@/common/components/PageTitle";
 import { Party } from "@/common/types/Party";
-import { getParties } from "@/pages/api/parties";
+import auth0 from "@/common/utils/auth0";
 import PartyDataGrid from "@/modules/parties/PartyDataGrid";
+import { getParties } from "@/pages/api/parties";
 
 type IndexPartiesProps = {
   parties: Party[];

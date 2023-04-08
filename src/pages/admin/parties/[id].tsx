@@ -1,16 +1,17 @@
-import * as React from "react";
-import Head from "next/head";
-import PageTitle from "@/common/components/PageTitle";
 import Grid from "@mui/material/Grid";
-import { useRouter } from "next/router";
-import auth0 from "@/common/utils/auth0";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import * as React from "react";
+
+import PageTitle from "@/common/components/PageTitle";
 import { Party } from "@/common/types/Party";
-import { getParty } from "@/pages/api/parties/[id]";
-import PartyBasicInfoCard from "@/modules/parties/PartyBasicInfoCard";
-import PartyActionButtons from "@/modules/parties/PartyActionButtons";
+import auth0 from "@/common/utils/auth0";
 import PartyDeletionConfirmationDialogue from "@/modules/parties/delete/PartyDeletionConfirmationDialogue";
 import PartyDeletionErrorSnackbar from "@/modules/parties/delete/PartyDeletionErrorSnackbar";
+import PartyActionButtons from "@/modules/parties/PartyActionButtons";
+import PartyBasicInfoCard from "@/modules/parties/PartyBasicInfoCard";
+import { getParty } from "@/pages/api/parties/[id]";
 
 type ViewPartyProps = {
   party: Party;
@@ -19,7 +20,7 @@ type ViewPartyProps = {
 export default function ViewParty({ party }: ViewPartyProps) {
   const router = useRouter();
 
-  let id = Number(router.query.id);
+  const id = Number(router.query.id);
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     React.useState<boolean>(false);

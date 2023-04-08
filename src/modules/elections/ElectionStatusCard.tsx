@@ -1,10 +1,11 @@
-import * as React from "react";
-import Paper from "@mui/material/Paper";
+import { SxProps } from "@mui/material";
 import CardContent from "@mui/material/CardContent";
+import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import * as React from "react";
+
 import InfoCardItem from "@/common/components/InfoCardItem";
 import { Election } from "@/common/types/Election";
-import { SxProps } from "@mui/material";
 
 type ElectionStatusCardProps = {
   election: Election;

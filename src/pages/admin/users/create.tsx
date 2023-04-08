@@ -1,13 +1,14 @@
-import * as React from "react";
-import auth0 from "@/common/utils/auth0";
-import Head from "next/head";
-import PageTitle from "@/common/components/PageTitle";
-import CreateUserForm from "@/modules/users/components/CreateUserForm";
 import Box from "@mui/material/Box";
+import Head from "next/head";
 import { useRouter } from "next/router";
+import * as React from "react";
+
+import PageTitle from "@/common/components/PageTitle";
+import auth0 from "@/common/utils/auth0";
+import CreateUserForm from "@/modules/users/components/CreateUserForm";
 
 export default function CreateUser() {
-  let router = useRouter();
+  const router = useRouter();
 
   const handleUserCreated = (userId: string) => {
     router.push(`/admin/users/${userId}`);

@@ -1,10 +1,11 @@
-import * as React from "react";
-import Stack from "@mui/material/Stack";
-import Sidebar from "./SideBar";
+import { UserProfile } from "@auth0/nextjs-auth0/client";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
+import * as React from "react";
+
 import Header from "./Header/Header";
-import { UserProfile } from "@auth0/nextjs-auth0/client";
+import Sidebar from "./SideBar";
 
 type LayoutProps = {
   user?: UserProfile;

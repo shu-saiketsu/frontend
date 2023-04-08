@@ -1,15 +1,16 @@
-import * as React from "react";
-import PageTitle from "@/common/components/PageTitle";
-import Box from "@mui/material/Box";
-import Head from "next/head";
-import UserDataGrid from "@/modules/users/components/UserDataGrid";
-import auth0 from "@/common/utils/auth0";
-import { GetServerSidePropsContext } from "next/types";
-import DataFetchAlertError from "@/common/components/DataFetchAlertError";
-import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { getUsers } from "@/pages/api/users";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Head from "next/head";
+import { GetServerSidePropsContext } from "next/types";
+import * as React from "react";
+
+import DataFetchAlertError from "@/common/components/DataFetchAlertError";
+import PageTitle from "@/common/components/PageTitle";
 import { User } from "@/common/types/User";
+import auth0 from "@/common/utils/auth0";
+import UserDataGrid from "@/modules/users/components/UserDataGrid";
+import { getUsers } from "@/pages/api/users";
 
 type IndexUsersProps = {
   users?: User[];

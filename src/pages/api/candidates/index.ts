@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import auth0 from "@/common/utils/auth0";
+
 import { Candidate } from "@/common/types/Candidate";
+import auth0 from "@/common/utils/auth0";
 
 const gatewayUrl = process.env.GATEWAY_API;
 
@@ -53,7 +54,7 @@ async function createCandidate(
   }
 }
 
-export default async function handler(
+export default auth0.withApiAuthRequired(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -72,7 +73,7 @@ export default async function handler(
     }
 
     case "POST": {
-      let { name, partyId } = JSON.parse(req.body);
+      const { name, partyId } = JSON.parse(req.body);
 
       if (typeof name !== "string") return res.status(500).end();
       if (typeof partyId !== "number" && partyId !== undefined)
@@ -93,6 +94,6 @@ export default async function handler(
       return res.status(500).end();
     }
   }
-}
+});
 
 export { getCandidates };

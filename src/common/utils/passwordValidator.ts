@@ -1,6 +1,6 @@
 import PasswordValidator from "password-validator";
 
-var schema = new PasswordValidator();
+const schema = new PasswordValidator();
 schema
   .is()
   .min(8)
@@ -14,7 +14,7 @@ schema
   .digits();
 
 export default function passwordValidator(password: string): boolean {
-  var result = schema.validate(password) as boolean;
+  const result = schema.validate(password) as boolean;
 
   return result;
 }

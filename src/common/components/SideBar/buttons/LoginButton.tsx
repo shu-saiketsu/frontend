@@ -1,5 +1,6 @@
-import * as React from "react";
 import LoginIcon from "@mui/icons-material/Login";
+import * as React from "react";
+
 import SideBarButton from "../SideBarButton";
 
 export default function LoginButton() {

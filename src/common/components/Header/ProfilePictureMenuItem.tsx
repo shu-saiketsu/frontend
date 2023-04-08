@@ -1,7 +1,7 @@
-import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import * as React from "react";
 
 type ProfilePictureMenuProps = {
   href: string;

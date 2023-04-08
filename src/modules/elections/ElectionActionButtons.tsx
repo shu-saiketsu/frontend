@@ -1,8 +1,8 @@
-import * as React from "react";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import * as React from "react";
 
 type ElectionActionButtonsProps = {
   onDelete: () => void;

@@ -1,18 +1,20 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import TextFieldController from "@/common/components/Form/TextFieldController";
-import Typography from "@mui/material/Typography";
-import { useForm } from "react-hook-form";
-import ElectionCreationErrorSnackbar from "./create/ElectionCreationErrorSnackbar";
-import TextField from "@mui/material/TextField";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
-import DateTimePickerController from "@/common/components/Form/DateTimePickerController";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { DateTime } from "luxon";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+
+import DateTimePickerController from "@/common/components/Form/DateTimePickerController";
 import SelectionController from "@/common/components/Form/SelectionController";
+import TextFieldController from "@/common/components/Form/TextFieldController";
 import { ElectionTypeEnum } from "@/common/enums/ElectionTypeEnum";
 import { Election } from "@/common/types/Election";
+
+import ElectionCreationErrorSnackbar from "./create/ElectionCreationErrorSnackbar";
 
 function Section({
   control,
@@ -89,10 +91,10 @@ function Section({
 }
 
 async function createElection(formData: FormData) {
-  let startDate = formData.startDate.toISODate() as string;
-  let endDate = formData.endDate.toISODate() as string;
+  const startDate = formData.startDate.toISODate() as string;
+  const endDate = formData.endDate.toISODate() as string;
 
-  let response = await fetch("/api/elections", {
+  const response = await fetch("/api/elections", {
     method: "POST",
     body: JSON.stringify({
       name: formData.name,
@@ -103,8 +105,8 @@ async function createElection(formData: FormData) {
   });
 
   if (response.status === 200) {
-    let json = await response.json();
-    let election = json as Election;
+    const json = await response.json();
+    const election = json as Election;
 
     return election;
   }

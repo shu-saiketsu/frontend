@@ -1,6 +1,6 @@
+import TextField from "@mui/material/TextField";
 import * as React from "react";
 import { Controller, RegisterOptions } from "react-hook-form";
-import TextField from "@mui/material/TextField";
 
 type TextFieldControllerProps = {
   control: any;

@@ -1,7 +1,8 @@
-import * as React from "react";
 import Stack from "@mui/material/Stack";
-import LoginButton from "../buttons/LoginButton";
+import * as React from "react";
+
 import GitHubButton from "../buttons/GitHubButton";
+import LoginButton from "../buttons/LoginButton";
 
 export default function VisitorView() {
   return (

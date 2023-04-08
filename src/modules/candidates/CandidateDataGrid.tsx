@@ -1,8 +1,9 @@
-import * as React from "react";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import { Party } from "@/common/types/Party";
 import Button from "@mui/material/Button";
+import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import Link from "next/link";
+import * as React from "react";
+
+import { Party } from "@/common/types/Party";
 
 const columns: GridColDef[] = [
   {
@@ -11,7 +12,7 @@ const columns: GridColDef[] = [
     width: 200,
     sortable: false,
     renderCell: (cellValues) => {
-      let identifier = cellValues.value;
+      const identifier = cellValues.value;
 
       return (
         <Link
@@ -39,7 +40,7 @@ const columns: GridColDef[] = [
     sortable: false,
     valueGetter: (params) => params.row.party,
     renderCell: (cellValues) => {
-      let party = cellValues.value as Party | null;
+      const party = cellValues.value as Party | null;
 
       if (party === null) return "N/A";
 

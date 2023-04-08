@@ -1,9 +1,9 @@
-import * as React from "react";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
 import BlockIcon from "@mui/icons-material/Block";
+import DeleteIcon from "@mui/icons-material/Delete";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import * as React from "react";
 
 type UserActionButtonsProps = {
   onDelete: () => void;

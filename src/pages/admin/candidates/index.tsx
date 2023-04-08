@@ -1,15 +1,16 @@
-import * as React from "react";
-import PageTitle from "@/common/components/PageTitle";
-import Box from "@mui/material/Box";
-import Head from "next/head";
-import auth0 from "@/common/utils/auth0";
-import { GetServerSidePropsContext } from "next/types";
-import DataFetchAlertError from "@/common/components/DataFetchAlertError";
-import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Head from "next/head";
+import { GetServerSidePropsContext } from "next/types";
+import * as React from "react";
+
+import DataFetchAlertError from "@/common/components/DataFetchAlertError";
+import PageTitle from "@/common/components/PageTitle";
 import { Candidate } from "@/common/types/Candidate";
-import { getCandidates } from "@/pages/api/candidates";
+import auth0 from "@/common/utils/auth0";
 import CandidateDataGrid from "@/modules/candidates/CandidateDataGrid";
+import { getCandidates } from "@/pages/api/candidates";
 
 type IndexCandidatesProps = {
   candidates?: Candidate[];

@@ -1,6 +1,6 @@
+import TextField from "@mui/material/TextField";
 import * as React from "react";
 import { Controller } from "react-hook-form";
-import TextField from "@mui/material/TextField";
 
 type NumberTextFieldControllerProps = {
   control: any;
@@ -27,7 +27,7 @@ export default function NumberTextFieldController({
   };
 
   const input = (value: string) => {
-    let isNan = Number.isNaN(value);
+    const isNan = Number.isNaN(value);
 
     if (isNan || Number(value) === 0) return "";
 
@@ -43,7 +43,7 @@ export default function NumberTextFieldController({
         validate: (value: string) => {
           if (value === "") return;
 
-          let number = Number(value);
+          const number = Number(value);
           if (Number.isNaN(number)) return "Must be a number";
           if (number < 0) return "Must be above 0";
         },

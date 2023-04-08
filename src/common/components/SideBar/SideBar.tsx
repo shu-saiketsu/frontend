@@ -1,12 +1,13 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import SideBarHeader from "./SideBarHeader";
-
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Box from "@mui/material/Box";
+import * as React from "react";
+
 import { isUserInRole } from "@/common/utils/roleRetriever";
+
+import SideBarHeader from "./SideBarHeader";
 import AdministratorView from "./views/AdministratorView";
-import VoterView from "./views/VoterView";
 import VisitorView from "./views/VisitorView";
+import VoterView from "./views/VoterView";
 
 export default function SideBar() {
   const { user } = useUser();

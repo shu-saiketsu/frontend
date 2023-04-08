@@ -1,5 +1,6 @@
-import * as React from "react";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import * as React from "react";
+
 import SideBarButton from "../SideBarButton";
 
 export default function CandidatesButton() {

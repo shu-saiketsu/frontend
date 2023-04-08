@@ -1,15 +1,16 @@
-import * as React from "react";
-import Head from "next/head";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { CacheProvider } from "@emotion/react";
-import theme from "@/common/theme";
-import createEmotionCache from "@/common/createEmotionCache";
-import { FrontendAppProps } from "@/common/types/FrontendAppProps";
-import Layout from "@/common/components/Layout";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
+import { CacheProvider } from "@emotion/react";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
+import Head from "next/head";
+import * as React from "react";
+
+import Layout from "@/common/components/Layout";
+import createEmotionCache from "@/common/createEmotionCache";
+import theme from "@/common/theme";
+import { FrontendAppProps } from "@/common/types/FrontendAppProps";
 
 const clientSideEmotionCache = createEmotionCache();
 

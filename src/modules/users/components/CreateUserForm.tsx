@@ -1,17 +1,19 @@
-import * as React from "react";
-import Typography from "@mui/material/Typography";
-import { useForm } from "react-hook-form";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Box from "@mui/material/Box";
-import TextFieldController from "@/common/components/Form/TextFieldController";
-import emailValidator from "@/common/utils/emailValidator";
-import passwordValidator from "@/common/utils/passwordValidator";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+
 import CheckboxController from "@/common/components/Form/CheckboxController";
 import SelectionController from "@/common/components/Form/SelectionController";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import UserCreationErrorSnackbar from "./create/UserCreationErrorSnackbar";
+import TextFieldController from "@/common/components/Form/TextFieldController";
 import { User } from "@/common/types/User";
+import emailValidator from "@/common/utils/emailValidator";
+import passwordValidator from "@/common/utils/passwordValidator";
+
+import UserCreationErrorSnackbar from "./create/UserCreationErrorSnackbar";
 
 // eslint-disable-next-line no-unused-vars
 enum RoleType {
@@ -165,7 +167,7 @@ function LegalSection({
 }
 
 async function createUser(formData: FormData) {
-  let response = await fetch("/api/users", {
+  const response = await fetch("/api/users", {
     method: "POST",
     body: JSON.stringify({
       email: formData.email,
@@ -177,8 +179,8 @@ async function createUser(formData: FormData) {
   });
 
   if (response.status === 200) {
-    let json = await response.json();
-    let user = json as User;
+    const json = await response.json();
+    const user = json as User;
 
     return user;
   }

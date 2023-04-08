@@ -1,9 +1,10 @@
-import * as React from "react";
-import Paper from "@mui/material/Paper";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import Box from "@mui/material/Box";
+import CardContent from "@mui/material/CardContent";
+import Divider from "@mui/material/Divider";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+
 import InfoCardItem from "@/common/components/InfoCardItem";
 import { Party } from "@/common/types/Party";
 
@@ -13,7 +14,7 @@ type PartyBasicInfoCardProps = {
 
 export default function PartyBasicInfoCard({ party }: PartyBasicInfoCardProps) {
   return (
-    <Paper variant="outlined" >
+    <Paper variant="outlined">
       <CardContent>
         <Typography variant="h6" mb={2}>
           Basic Details

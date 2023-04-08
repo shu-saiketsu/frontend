@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import auth0 from "@/common/utils/auth0";
+
 import { Party } from "@/common/types/Party";
+import auth0 from "@/common/utils/auth0";
 
 const gatewayUrl = process.env.GATEWAY_API;
 
@@ -53,7 +54,7 @@ async function createParty(
   }
 }
 
-export default async function handler(
+export default auth0.withApiAuthRequired(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -72,7 +73,7 @@ export default async function handler(
     }
 
     case "POST": {
-      let { name, description } = JSON.parse(req.body);
+      const { name, description } = JSON.parse(req.body);
 
       if (typeof name !== "string" || typeof description !== "string")
         return res.status(500).end();
@@ -92,6 +93,6 @@ export default async function handler(
       return res.status(500).end();
     }
   }
-}
+});
 
 export { getParties };

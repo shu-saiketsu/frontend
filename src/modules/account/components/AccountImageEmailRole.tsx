@@ -1,9 +1,10 @@
-import * as React from "react";
+import { UserProfile } from "@auth0/nextjs-auth0/client";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { UserProfile } from "@auth0/nextjs-auth0/client";
+import * as React from "react";
+
 import { isUserInRole } from "@/common/utils/roleRetriever";
 
 type AccountImageEmailRoleProps = {

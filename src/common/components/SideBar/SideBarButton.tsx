@@ -1,6 +1,6 @@
-import * as React from "react";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/dist/client/router";
+import * as React from "react";
 
 type SideButtonProps = {
   content: string;

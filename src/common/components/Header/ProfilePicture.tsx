@@ -1,8 +1,9 @@
-import * as React from "react";
-import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
-import ProfilePictureMenu from "./ProfilePictureMenu";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import * as React from "react";
+
+import ProfilePictureMenu from "./ProfilePictureMenu";
 
 function getPicture(user?: UserProfile) {
   if (!user) return undefined;

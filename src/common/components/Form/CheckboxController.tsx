@@ -1,9 +1,9 @@
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormHelperText from "@mui/material/FormHelperText";
 import * as React from "react";
 import { Controller, RegisterOptions } from "react-hook-form";
-import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import FormHelperText from "@mui/material/FormHelperText";
 
 type CheckboxControllerProps = {
   control: any;

@@ -1,5 +1,6 @@
-import * as React from "react";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import * as React from "react";
+
 import SideBarButton from "../SideBarButton";
 
 export default function AccountButton() {

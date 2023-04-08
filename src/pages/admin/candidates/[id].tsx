@@ -1,17 +1,17 @@
-import * as React from "react";
-import Head from "next/head";
-import PageTitle from "@/common/components/PageTitle";
 import Grid from "@mui/material/Grid";
-import { useRouter } from "next/router";
-import auth0 from "@/common/utils/auth0";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import * as React from "react";
 
-import CandidateActionButtons from "@/modules/candidates/CandidateActionButtons";
+import PageTitle from "@/common/components/PageTitle";
 import { Candidate } from "@/common/types/Candidate";
-import { getCandidate } from "@/pages/api/candidates/[id]";
+import auth0 from "@/common/utils/auth0";
+import CandidateActionButtons from "@/modules/candidates/CandidateActionButtons";
 import CandidateBasicInfoCard from "@/modules/candidates/CandidateBasicInfoCard";
 import CandidateDeletionConfirmationDialogue from "@/modules/candidates/delete/CandidateDeletionConfirmationDialogue";
 import CandidateDeletionErrorSnackbar from "@/modules/candidates/delete/CandidateDeletionErrorSnackbar";
+import { getCandidate } from "@/pages/api/candidates/[id]";
 
 type ViewCandidateProps = {
   candidate: Candidate;
@@ -20,7 +20,7 @@ type ViewCandidateProps = {
 export default function ViewCandidate({ candidate }: ViewCandidateProps) {
   const router = useRouter();
 
-  let id = Number(router.query.id);
+  const id = Number(router.query.id);
 
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     React.useState<boolean>(false);

@@ -1,8 +1,8 @@
-import * as React from "react";
-import Typography from "@mui/material/Typography";
+import { UserProfile } from "@auth0/nextjs-auth0/client";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import { UserProfile } from "@auth0/nextjs-auth0/client";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 
 type ProfilePictureAccountMenuItemProps = {
   user: UserProfile;

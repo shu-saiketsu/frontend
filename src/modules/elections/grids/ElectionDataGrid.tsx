@@ -1,7 +1,8 @@
-import * as React from "react";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
+import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import Link from "next/link";
+import * as React from "react";
+
 import { ElectionTypeEnum } from "@/common/enums/ElectionTypeEnum";
 
 const columns: GridColDef[] = [
@@ -11,7 +12,7 @@ const columns: GridColDef[] = [
     width: 200,
     sortable: false,
     renderCell: (cellValues) => {
-      let identifier = cellValues.value;
+      const identifier = cellValues.value;
 
       return (
         <Link
@@ -36,7 +37,7 @@ const columns: GridColDef[] = [
     width: 200,
     sortable: false,
     renderCell: (cellValues) => {
-      let identifier = cellValues.value as ElectionTypeEnum;
+      const identifier = cellValues.value as ElectionTypeEnum;
 
       switch (identifier) {
         case ElectionTypeEnum.FirstPassThePost: {
@@ -56,7 +57,7 @@ const columns: GridColDef[] = [
     sortable: false,
     flex: 1,
     renderCell: (cellValues) => {
-      let identifier = cellValues.value;
+      const identifier = cellValues.value;
 
       return (
         <Link
