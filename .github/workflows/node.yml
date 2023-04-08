@@ -3,14 +3,13 @@ name: Node.js CI
 on:
   push:
     branches:
-     - "**"
+      - "**"
   pull_request:
     branches:
       - "**"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -18,11 +17,24 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm ci
+
+      - name: create env file
+        run: |
+          touch .env
+          echo AUTH0_SECRET="BUILD" >> .env
+          echo AUTH0_BASE_URL="http://build.com" >> .env
+          echo AUTH0_ISSUER_BASE_URL="https://build.eu.auth0.com" >> .env
+          echo AUTH0_CLIENT_ID="0000000000000000000000000000000" >> .env
+          echo AUTH0_CLIENT_SECRET="000000000000000000000000000000000000000000000000000000000000000" >> .env
+          echo AUTH0_AUDIENCE_IDENTIFIER="https://build.com" >> .env
+          echo NEXT_PUBLIC_AUTH0_NAMESPACE="https://build.build.com" >> .env
+          echo GATEWAY_API="http://build.com" >> .env
+
+      - run: npm run build
