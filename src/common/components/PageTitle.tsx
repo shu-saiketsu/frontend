@@ -11,7 +11,7 @@ export default function PageTitle({ name, description }: PageTitleProps) {
   return (
     <Box>
       <Typography
-        variant="h4"
+        variant="h3"
         sx={{
           whiteSpace: "nowrap",
         }}
@@ -22,7 +22,7 @@ export default function PageTitle({ name, description }: PageTitleProps) {
         sx={{
           whiteSpace: "nowrap",
         }}
-        variant="subtitle2"
+        variant="subtitle1"
       >
         {description}
       </Typography>

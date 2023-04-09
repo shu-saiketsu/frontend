@@ -15,10 +15,14 @@ export default function ProfilePictureMenuItem({
   onClose,
 }: ProfilePictureMenuProps) {
   return (
-    <MenuItem onClick={onClose}>
-      <Link href={href} style={{ textDecoration: "none", color: "inherit" }}>
+    <Link
+      href={href}
+      style={{ textDecoration: "none", color: "inherit" }}
+      passHref
+    >
+      <MenuItem onClick={onClose}>
         <Typography textAlign="center">{content}</Typography>
-      </Link>
-    </MenuItem>
+      </MenuItem>
+    </Link>
   );
 }

@@ -5,8 +5,8 @@ import auth0 from "@/common/utils/auth0";
 
 const gatewayUrl = process.env.GATEWAY_API;
 
-async function getElectionUsers(accessToken: string, id: number) {
-  const url = `${gatewayUrl}/api/elections/${id}/users`;
+async function getElectionUsers(accessToken: string, electionId: number) {
+  const url = `${gatewayUrl}/api/elections/${electionId}/users`;
 
   try {
     const response = await fetch(url, {
@@ -30,9 +30,9 @@ export default auth0.withApiAuthRequired(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const id = Number(req.query.id);
+  const electionId = Number(req.query.electionId);
 
-  if (Number.isNaN(id)) return res.status(500).end();
+  if (Number.isNaN(electionId)) return res.status(500).end();
 
   switch (req.method) {
     case "GET": {
@@ -42,7 +42,7 @@ export default auth0.withApiAuthRequired(async function handler(
 
       if (!accessToken) return res.status(500).end();
 
-      const electionUsers = await getElectionUsers(accessToken, id);
+      const electionUsers = await getElectionUsers(accessToken, electionId);
       if (!electionUsers) return res.status(500).end();
 
       return res.status(200).json(electionUsers);

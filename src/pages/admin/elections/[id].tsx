@@ -18,9 +18,11 @@ import ElectionDateCard from "@/modules/elections/ElectionDateCard";
 import ElectionStatusCard from "@/modules/elections/ElectionStatusCard";
 import ElectionCandidateDataGrid from "@/modules/elections/grids/ElectionCandidateDataGrid";
 import ElectionUserDataGrid from "@/modules/elections/grids/ElectionUserDataGrid";
-import { getElection } from "@/pages/api/elections/[id]";
-import { getElectionCandidates } from "@/pages/api/elections/[id]/candidates";
-import { getElectionUsers } from "@/pages/api/elections/[id]/users";
+import AddCandidateDialogueForm from "@/modules/elections/update/AddCandidateDialogueForm";
+import AddUserDialogueForm from "@/modules/elections/update/AddUserDialogueForm";
+import { getElection } from "@/pages/api/elections/[electionId]";
+import { getElectionCandidates } from "@/pages/api/elections/[electionId]/candidates";
+import { getElectionUsers } from "@/pages/api/elections/[electionId]/users";
 
 type ViewElectionProps = {
   election: Election;
@@ -43,6 +45,46 @@ export default function ViewElection({
   const [showDeletionErrorSnackbar, setShowDeletionErrorSnackbar] =
     React.useState<boolean>(false);
 
+  const [showCandidateDialogue, setShowCandidateDialogue] =
+    React.useState<boolean>(false);
+
+  const [showUserDialogue, setShowUserDialogue] =
+    React.useState<boolean>(false);
+
+  const handleCandidateAddedSuccessfully = () => {
+    setShowCandidateDialogue(false);
+    router.replace(router.asPath);
+  };
+
+  const handleUserAddedSuccessfully = () => {
+    setShowUserDialogue(false);
+    router.replace(router.asPath);
+  };
+
+  const handleOnUserDeleted = () => {
+    router.replace(router.asPath);
+  };
+
+  const handleOnCandidateDeleted = () => {
+    router.replace(router.asPath);
+  };
+
+  const handleShowCandidateDialogue = () => {
+    setShowCandidateDialogue(true);
+  };
+
+  const handleShowUserDialogue = () => {
+    setShowUserDialogue(true);
+  };
+
+  const handleHideCandidateDialogue = () => {
+    setShowCandidateDialogue(false);
+  };
+
+  const handleHideUserDialogue = () => {
+    setShowUserDialogue(false);
+  };
+
   const handleShowConfirmationDelete = () => {
     setShowDeleteConfirmation(true);
   };
@@ -59,13 +101,13 @@ export default function ViewElection({
     setShowDeletionErrorSnackbar(false);
   };
 
-  const handleDelete = async () => {
-    return router.push("/admin/elections");
-  };
-
   const handleDeletionFailure = () => {
     handleHideConfirmationDelete();
     handleShowDeletionErrorSnackbar();
+  };
+
+  const handleDelete = async () => {
+    return router.push("/admin/elections");
   };
 
   return (
@@ -76,48 +118,66 @@ export default function ViewElection({
 
       <PageTitle name="Election view portal" description="Viewing election" />
 
-      <ElectionDeletionConfirmationDialogue
+      <>
+        <ElectionDeletionConfirmationDialogue
+          electionId={id}
+          open={showDeleteConfirmation}
+          onDelete={handleDelete}
+          onDeleteFailure={handleDeletionFailure}
+          onClose={handleHideConfirmationDelete}
+        />
+
+        <ElectionDeletionErrorSnackbar
+          open={showDeletionErrorSnackbar}
+          onClose={handleHideDeletionErrorSnackbar}
+        />
+      </>
+
+      <AddCandidateDialogueForm
         electionId={id}
-        open={showDeleteConfirmation}
-        onDelete={handleDelete}
-        onDeleteFailure={handleDeletionFailure}
-        onClose={handleHideConfirmationDelete}
+        open={showCandidateDialogue}
+        onAdded={handleCandidateAddedSuccessfully}
+        onClose={handleHideCandidateDialogue}
       />
 
-      <ElectionDeletionErrorSnackbar
-        open={showDeletionErrorSnackbar}
-        onClose={handleHideDeletionErrorSnackbar}
+      <AddUserDialogueForm
+        electionId={id}
+        open={showUserDialogue}
+        onAdded={handleUserAddedSuccessfully}
+        onClose={handleHideUserDialogue}
       />
 
-      <Grid container mt={2} spacing={2}>
-        <Grid item xs={3}>
+      <Grid mt={0.5} spacing={2} container>
+        <Grid item xs={12} md={3}>
           <ElectionDateCard election={election} />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={12} md={9}>
           <ElectionStatusCard election={election} sx={{ height: 1 }} />
         </Grid>
-      </Grid>
-
-      <Box mt={2}></Box>
-
-      <Grid mt={2} spacing={2} container>
         <Grid item xs={12} lg={3}>
           <ElectionBasicInfoCard election={election} sx={{ height: "100%" }} />
         </Grid>
         <Grid item xs={12} lg={9}>
-          <ElectionCandidateDataGrid rows={electionCandidates} />
+          <ElectionCandidateDataGrid
+            electionId={id}
+            rows={electionCandidates}
+            onCandidateDeleted={handleOnCandidateDeleted}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <ElectionUserDataGrid
+            electionId={id}
+            rows={electionUsers}
+            onUserDeleted={handleOnUserDeleted}
+          />
         </Grid>
       </Grid>
 
       <Box mt={2}>
-        <ElectionUserDataGrid rows={electionUsers} />
-      </Box>
-
-      <Box mt={2}>
         <ElectionActionButtons
           onDelete={handleShowConfirmationDelete}
-          onAddCandidate={() => console.log("not implemented")}
-          onAddUser={() => console.log("not implemented")}
+          onAddCandidate={handleShowCandidateDialogue}
+          onAddUser={handleShowUserDialogue}
         />
       </Box>
     </>

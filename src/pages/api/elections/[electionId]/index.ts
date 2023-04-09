@@ -5,8 +5,8 @@ import auth0 from "@/common/utils/auth0";
 
 const gatewayUrl = process.env.GATEWAY_API;
 
-async function getElection(accessToken: string, id: number) {
-  const url = `${gatewayUrl}/api/elections/${id}`;
+async function getElection(accessToken: string, electionId: number) {
+  const url = `${gatewayUrl}/api/elections/${electionId}`;
 
   try {
     const response = await fetch(url, {
@@ -26,8 +26,8 @@ async function getElection(accessToken: string, id: number) {
   }
 }
 
-async function deleteElection(accessToken: string, id: number) {
-  const url = `${gatewayUrl}/api/elections/${id}`;
+async function deleteElection(accessToken: string, electionId: number) {
+  const url = `${gatewayUrl}/api/elections/${electionId}`;
 
   try {
     const response = await fetch(url, {
@@ -47,9 +47,9 @@ export default auth0.withApiAuthRequired(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const id = Number(req.query.id);
+  const electionId = Number(req.query.electionId);
 
-  if (Number.isNaN(id)) return res.status(500).end();
+  if (Number.isNaN(electionId)) return res.status(500).end();
 
   switch (req.method) {
     case "GET": {
@@ -59,7 +59,7 @@ export default auth0.withApiAuthRequired(async function handler(
 
       if (!accessToken) return res.status(500).end();
 
-      const election = await getElection(accessToken, id);
+      const election = await getElection(accessToken, electionId);
       if (!election) return res.status(500).end();
 
       return res.status(200).json(election);
@@ -72,7 +72,7 @@ export default auth0.withApiAuthRequired(async function handler(
 
       if (!accessToken) return res.status(500).end();
 
-      const deleteSuccess = await deleteElection(accessToken, id);
+      const deleteSuccess = await deleteElection(accessToken, electionId);
 
       return res.status(deleteSuccess ? 200 : 500).end();
     }
