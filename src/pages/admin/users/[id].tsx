@@ -92,7 +92,9 @@ export default function ViewUser({ dataUser }: ViewUserProps) {
 
 export const getServerSideProps = auth0.withPageAuthRequired({
   async getServerSideProps(context: GetServerSidePropsContext) {
-    const id = context.query.id;
+    const { req, res, query } = context;
+
+    const id = query.id;
 
     if (typeof id !== "string")
       return {
@@ -101,26 +103,33 @@ export const getServerSideProps = auth0.withPageAuthRequired({
         },
       };
 
-    const { req, res } = context;
-    const { accessToken } = await auth0.getAccessToken(req, res, {
-      scopes: ["read:users"],
-    });
+    try {
+      const { accessToken } = await auth0.getAccessToken(req, res, {
+        scopes: ["read:users"],
+      });
 
-    if (!accessToken)
+      if (!accessToken)
+        return {
+          redirect: {
+            destination: "/",
+          },
+        };
+
+      const dataUser = await getUser(accessToken, id);
+      if (!dataUser)
+        return {
+          redirect: {
+            destination: "/admin/users",
+          },
+        };
+
+      return { props: { dataUser } };
+    } catch (error) {
       return {
         redirect: {
           destination: "/",
         },
       };
-
-    const dataUser = await getUser(accessToken, id);
-    if (!dataUser)
-      return {
-        redirect: {
-          destination: "/admin/users",
-        },
-      };
-
-    return { props: { dataUser } };
+    }
   },
 } as any);

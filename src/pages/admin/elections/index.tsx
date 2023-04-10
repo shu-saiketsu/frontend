@@ -53,20 +53,28 @@ export const getServerSideProps = auth0.withPageAuthRequired({
   async getServerSideProps(context: GetServerSidePropsContext) {
     const { req, res } = context;
 
-    const { accessToken } = await auth0.getAccessToken(req, res, {
-      scopes: ["read:elections"],
-    });
+    try {
+      const { accessToken } = await auth0.getAccessToken(req, res, {
+        scopes: ["read:elections"],
+      });
 
-    if (!accessToken)
+      if (!accessToken)
+        return {
+          redirect: {
+            destination: "/",
+          },
+        };
+
+      const elections = await getElections(accessToken);
+      if (!elections) return { props: {} };
+
+      return { props: { elections } };
+    } catch (error) {
       return {
         redirect: {
           destination: "/",
         },
       };
-
-    const elections = await getElections(accessToken);
-    if (!elections) return { props: {} };
-
-    return { props: { elections } };
+    }
   },
 } as any);

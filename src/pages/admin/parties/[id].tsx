@@ -88,6 +88,8 @@ export default function ViewParty({ party }: ViewPartyProps) {
 
 export const getServerSideProps = auth0.withPageAuthRequired({
   async getServerSideProps(context: GetServerSidePropsContext) {
+    const { req, res } = context;
+
     const id = Number(context.query.id);
 
     if (Number.isNaN(id))
@@ -97,26 +99,33 @@ export const getServerSideProps = auth0.withPageAuthRequired({
         },
       };
 
-    const { req, res } = context;
-    const { accessToken } = await auth0.getAccessToken(req, res, {
-      scopes: ["read:parties"],
-    });
+    try {
+      const { accessToken } = await auth0.getAccessToken(req, res, {
+        scopes: ["read:parties"],
+      });
 
-    if (!accessToken)
+      if (!accessToken)
+        return {
+          redirect: {
+            destination: "/",
+          },
+        };
+
+      const party = await getParty(accessToken, id);
+      if (!party)
+        return {
+          redirect: {
+            destination: "/admin/parties",
+          },
+        };
+
+      return { props: { party } };
+    } catch (error) {
       return {
         redirect: {
           destination: "/",
         },
       };
-
-    const party = await getParty(accessToken, id);
-    if (!party)
-      return {
-        redirect: {
-          destination: "/admin/parties",
-        },
-      };
-
-    return { props: { party } };
+    }
   },
 } as any);
