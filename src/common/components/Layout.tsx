@@ -5,7 +5,9 @@ import Stack from "@mui/material/Stack";
 import * as React from "react";
 
 import Header from "./Header/Header";
+import HealthStatus from "./HealthStatus";
 import Sidebar from "./SideBar";
+import useHealth from "../hooks/useHealth";
 
 type LayoutProps = {
   user?: UserProfile;
@@ -13,20 +15,25 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
-  return (
-    <Stack direction="row">
-      <Box sx={{ width: 300 }}>
-        <Sidebar />
-      </Box>
+  const { health, isLoading } = useHealth();
 
-      <Box sx={{ width: 1 }}>
-        <Header />
-        <Container maxWidth="xl">
-          <Box mb={2}>
-            <main>{children}</main>
-          </Box>
-        </Container>
-      </Box>
-    </Stack>
+  return (
+    <>
+      <HealthStatus health={health} isLoading={isLoading} />
+      <Stack direction="row">
+        <Box sx={{ width: 300 }}>
+          <Sidebar />
+        </Box>
+
+        <Box sx={{ width: 1 }}>
+          <Header />
+          <Container maxWidth="xl">
+            <Box mb={2}>
+              <main>{children}</main>
+            </Box>
+          </Container>
+        </Box>
+      </Stack>
+    </>
   );
 }

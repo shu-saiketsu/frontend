@@ -14,6 +14,7 @@ declare global {
       NEXT_PUBLIC_AUTH0_NAMESPACE: string;
 
       GATEWAY_API: string;
+      HEALTH_API: string;
     }
   }
 }
