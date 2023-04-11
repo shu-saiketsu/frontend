@@ -15,11 +15,11 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
-  const { health, isLoading } = useHealth();
+  const { health, isLoading, error } = useHealth();
 
   return (
     <>
-      <HealthStatus health={health} isLoading={isLoading} />
+      <HealthStatus health={health} isLoading={isLoading} error={error} />
       <Stack direction="row">
         <Box sx={{ width: 300 }}>
           <Sidebar />

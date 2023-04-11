@@ -34,12 +34,17 @@ function getAffectedString(services: string[]) {
 type HealthStatusProps = {
   health?: Health;
   isLoading: boolean;
+  error: any;
 };
 
-export default function HealthStatus({ health, isLoading }: HealthStatusProps) {
+export default function HealthStatus({
+  health,
+  isLoading,
+  error,
+}: HealthStatusProps) {
   if (isLoading) return null;
 
-  if (!health) {
+  if (!health || error) {
     return (
       <Alert severity="info">
         <AlertTitle>Status of Saiketsu is currently unknown</AlertTitle>

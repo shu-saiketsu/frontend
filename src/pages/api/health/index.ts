@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { Health } from "@/common/types/Health";
-import auth0 from "@/common/utils/auth0";
 
 const healthUrl = process.env.HEALTH_API;
 
@@ -22,7 +21,7 @@ async function getHealthStatus() {
   }
 }
 
-export default auth0.withApiAuthRequired(async function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -30,6 +29,6 @@ export default auth0.withApiAuthRequired(async function handler(
   if (!health) return res.status(500).end();
 
   return res.status(200).json(health);
-});
+}
 
 export { getHealthStatus };
