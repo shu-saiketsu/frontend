@@ -79,7 +79,9 @@ export default auth0.withApiAuthRequired(async function handler(
     case "POST": {
       const session = await auth0.getSession(req, res);
 
-      const ownerId = session!.user.sub;
+      if (!session) return res.status(500).end();
+
+      const ownerId = session.user.sub;
       const { name, type, startDate, endDate } = JSON.parse(req.body);
 
       const { accessToken } = await auth0.getAccessToken(req, res, {

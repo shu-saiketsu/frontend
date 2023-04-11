@@ -5,15 +5,11 @@ import auth0 from "@/common/utils/auth0";
 
 const gatewayUrl = process.env.GATEWAY_API;
 
-async function getCandidate(accessToken: string, id: number) {
+async function getCandidate(id: number) {
   const url = `${gatewayUrl}/api/candidates/${id}`;
 
   try {
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await fetch(url);
 
     if (response.status === 200) {
       const json = await response.json();
@@ -53,13 +49,7 @@ export default auth0.withApiAuthRequired(async function handler(
 
   switch (req.method) {
     case "GET": {
-      const { accessToken } = await auth0.getAccessToken(req, res, {
-        scopes: ["read:candidates"],
-      });
-
-      if (!accessToken) return res.status(500).end();
-
-      const candidate = await getCandidate(accessToken, id);
+      const candidate = await getCandidate(id);
       if (!candidate) return res.status(500).end();
 
       return res.status(200).json(candidate);

@@ -5,15 +5,11 @@ import auth0 from "@/common/utils/auth0";
 
 const gatewayUrl = process.env.GATEWAY_API;
 
-async function getParty(accessToken: string, id: number) {
+async function getParty(id: number) {
   const url = `${gatewayUrl}/api/parties/${id}`;
 
   try {
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await fetch(url);
 
     if (response.status === 200) {
       const json = await response.json();
@@ -53,13 +49,7 @@ export default auth0.withApiAuthRequired(async function handler(
 
   switch (req.method) {
     case "GET": {
-      const { accessToken } = await auth0.getAccessToken(req, res, {
-        scopes: ["read:parties"],
-      });
-
-      if (!accessToken) return res.status(500).end();
-
-      const party = await getParty(accessToken, id);
+      const party = await getParty(id);
       if (!party) return res.status(500).end();
 
       return res.status(200).json(party);
