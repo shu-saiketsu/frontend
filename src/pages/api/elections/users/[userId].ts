@@ -13,11 +13,19 @@ function convertToBoolean(input: string): boolean | undefined {
   }
 }
 
-async function getUserElections(userId: string, eligible: boolean) {
+async function getUserElections(
+  accessToken: string,
+  userId: string,
+  eligible: boolean
+) {
   const url = `${gatewayUrl}/api/elections/users/${userId}?eligible=${eligible}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     if (response.status === 200) {
       const json = await response.json();
@@ -41,7 +49,10 @@ export default auth0.withApiAuthRequired(async function handler(
 
   switch (req.method) {
     case "GET": {
-      const elections = await getUserElections(userId, eligible);
+      const { accessToken } = await auth0.getAccessToken(req, res);
+      if (!accessToken) return res.status(500).end();
+
+      const elections = await getUserElections(accessToken, userId, eligible);
       if (!elections) return res.status(500).end();
 
       return res.status(200).json(elections);

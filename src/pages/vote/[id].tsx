@@ -4,6 +4,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import * as React from "react";
 
 import PageTitle from "@/common/components/PageTitle";
@@ -25,6 +26,22 @@ export default function VotePage({
   election,
   electionCandidates,
 }: VotePageProps) {
+  const [submitting, setSubmitting] = React.useState<boolean>(false);
+  const router = useRouter();
+
+  const handleSubmitting = () => {
+    setSubmitting(true);
+    router.push("/");
+  };
+
+  const handleVoteSubmitted = () => {
+    setSubmitting(false);
+  };
+
+  const handleVoteError = () => {
+    setSubmitting(false);
+  };
+
   return (
     <>
       <Head>
@@ -51,7 +68,14 @@ export default function VotePage({
             {electionCandidates.map((candidate) => {
               return (
                 <Grid key={candidate.id} xs={12} item>
-                  <VoteCandidateCard preCandidate={candidate} />
+                  <VoteCandidateCard
+                    onVoteSubmitted={handleVoteSubmitted}
+                    onSubmitting={handleSubmitting}
+                    onVoteError={handleVoteError}
+                    election={election}
+                    preCandidate={candidate}
+                    disabled={submitting}
+                  />
                 </Grid>
               );
             })}
@@ -65,6 +89,7 @@ export default function VotePage({
 export const getServerSideProps = auth0.withPageAuthRequired({
   async getServerSideProps(context: GetServerSidePropsContext) {
     const id = Number(context.query.id);
+    const { req, res } = context;
 
     if (Number.isNaN(id))
       return {
@@ -74,8 +99,16 @@ export const getServerSideProps = auth0.withPageAuthRequired({
       };
 
     try {
-      const election = await getElection(id);
-      const electionCandidates = await getElectionCandidates(id);
+      const { accessToken } = await auth0.getAccessToken(req, res);
+      if (!accessToken)
+        return {
+          redirect: {
+            destination: "/",
+          },
+        };
+
+      const election = await getElection(accessToken, id);
+      const electionCandidates = await getElectionCandidates(accessToken, id);
 
       if (!election || !electionCandidates)
         return {

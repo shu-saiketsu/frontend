@@ -34,20 +34,16 @@ export default auth0.withApiAuthRequired(async function handler(
 
   if (Number.isNaN(electionId)) return res.status(500).end();
 
-  switch (req.method) {
-    case "GET": {
-      const { accessToken } = await auth0.getAccessToken(req, res, {
-        scopes: ["read:elections"],
-      });
+  const { accessToken } = await auth0.getAccessToken(req, res, {
+    scopes: ["read:elections"],
+  });
 
-      if (!accessToken) return res.status(500).end();
+  if (!accessToken) return res.status(500).end();
 
-      const electionUsers = await getElectionUsers(accessToken, electionId);
-      if (!electionUsers) return res.status(500).end();
+  const electionUsers = await getElectionUsers(accessToken, electionId);
+  if (!electionUsers) return res.status(500).end();
 
-      return res.status(200).json(electionUsers);
-    }
-  }
+  return res.status(200).json(electionUsers);
 });
 
 export { getElectionUsers };

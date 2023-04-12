@@ -209,8 +209,8 @@ export const getServerSideProps = auth0.withPageAuthRequired({
           },
         };
 
-      const election = await getElection(id);
-      const electionCandidates = await getElectionCandidates(id);
+      const election = await getElection(accessToken, id);
+      const electionCandidates = await getElectionCandidates(accessToken, id);
       const electionUsers = await getElectionUsers(accessToken, id);
 
       if (!election || !electionCandidates || !electionUsers)

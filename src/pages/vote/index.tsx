@@ -40,27 +40,43 @@ export const getServerSideProps = auth0.withPageAuthRequired({
   async getServerSideProps(context: GetServerSidePropsContext) {
     const { req, res } = context;
 
-    const session = await auth0.getSession(req, res);
-    const user = session?.user;
+    try {
+      const session = await auth0.getSession(req, res);
+      const user = session?.user;
 
-    const isAdministrator = isUserInRole("Administrator", user);
-    if (!session || !user || isAdministrator)
+      const isAdministrator = isUserInRole("Administrator", user);
+      if (!session || !user || isAdministrator)
+        return {
+          redirect: {
+            destination: "/",
+          },
+        };
+
+      const sub = user.sub as string;
+
+      const { accessToken } = await auth0.getAccessToken(req, res);
+      if (!accessToken)
+        return {
+          redirect: {
+            destination: "/",
+          },
+        };
+
+      const elections = await getUserElections(accessToken, sub, true);
+      if (!elections)
+        return {
+          redirect: {
+            destination: "/",
+          },
+        };
+
+      return { props: { elections } };
+    } catch (error) {
       return {
         redirect: {
           destination: "/",
         },
       };
-
-    const sub = user.sub as string;
-
-    const elections = await getUserElections(sub, true);
-    if (!elections)
-      return {
-        redirect: {
-          destination: "/",
-        },
-      };
-
-    return { props: { elections } };
+    }
   },
 } as any);

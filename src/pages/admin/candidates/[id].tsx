@@ -89,22 +89,39 @@ export default function ViewCandidate({ candidate }: ViewCandidateProps) {
 export const getServerSideProps = auth0.withPageAuthRequired({
   async getServerSideProps(context: GetServerSidePropsContext) {
     const id = Number(context.query.id);
+    const { req, res } = context;
 
-    if (Number.isNaN(id))
-      return {
-        redirect: {
-          destination: "/",
-        },
-      };
+    try {
+      if (Number.isNaN(id))
+        return {
+          redirect: {
+            destination: "/",
+          },
+        };
 
-    const candidate = await getCandidate(id);
-    if (!candidate)
+      const { accessToken } = await auth0.getAccessToken(req, res);
+      if (!accessToken)
+        return {
+          redirect: {
+            destination: "/",
+          },
+        };
+
+      const candidate = await getCandidate(accessToken, id);
+      if (!candidate)
+        return {
+          redirect: {
+            destination: "/admin/candidates",
+          },
+        };
+
+      return { props: { candidate } };
+    } catch (error) {
       return {
         redirect: {
           destination: "/admin/candidates",
         },
       };
-
-    return { props: { candidate } };
+    }
   },
 } as any);
