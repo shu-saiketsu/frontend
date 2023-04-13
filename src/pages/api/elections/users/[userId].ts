@@ -21,6 +21,7 @@ async function getUserElections(
   const url = `${gatewayUrl}/api/elections/users/${userId}?eligible=${eligible}`;
 
   try {
+    console.log("hey!");
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -30,9 +31,10 @@ async function getUserElections(
     if (response.status === 200) {
       const json = await response.json();
       const elections = json as Election[];
-
       return elections;
     }
+
+    return null;
   } catch (error) {
     return null;
   }

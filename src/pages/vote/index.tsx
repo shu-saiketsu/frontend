@@ -25,13 +25,17 @@ export default function VoteIndex({ elections }: VoteIndexProps) {
 
       <PageTitle name="Vote" description="Vote in your eligible elections." />
 
-      <Box mt={1}>
-        <BasicElectionInformationCard elections={elections} />
-      </Box>
+      <>
+        <Box mt={1}>
+          <BasicElectionInformationCard elections={elections} />
+        </Box>
 
-      <Box mt={1}>
-        <ElectionVotingCardList elections={elections} />
-      </Box>
+        <Box mt={1}>
+          {elections.length > 0 && (
+            <ElectionVotingCardList elections={elections} />
+          )}
+        </Box>
+      </>
     </>
   );
 }
@@ -63,12 +67,6 @@ export const getServerSideProps = auth0.withPageAuthRequired({
         };
 
       const elections = await getUserElections(accessToken, sub, true);
-      if (!elections)
-        return {
-          redirect: {
-            destination: "/",
-          },
-        };
 
       return { props: { elections } };
     } catch (error) {
